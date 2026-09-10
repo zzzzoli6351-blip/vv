@@ -538,23 +538,36 @@ body {
   margin-bottom: 20px;
 }
 
-.choice-grid.choice-grid-binary {
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 480px;
+.choice-grid.choice-grid-count {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 560px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.btn-choice-match:hover:not(:disabled) {
-  border-color: #16a34a;
-  background: rgba(22, 163, 74, 0.08);
-  color: #15803d;
+.btn-choice-count {
+  padding: 16px 8px;
+  text-align: center;
 }
 
-.btn-choice-diff:hover:not(:disabled) {
-  border-color: #dc2626;
-  background: rgba(220, 38, 38, 0.08);
-  color: #b91c1c;
+.btn-choice-count .count-num {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--accent-primary);
+  line-height: 1.1;
+}
+
+.btn-choice-count .count-sub {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 540px) {
+  .choice-grid.choice-grid-count {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .btn-choice {

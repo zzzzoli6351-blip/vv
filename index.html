@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>청각 훈련 미니 앱 - Ear Training Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <button type="button" id="btn-theme-toggle" class="theme-toggle-btn" title="화면 테마 변경">
+        <span id="theme-icon">🌙</span>
+        <span id="theme-text">다크 모드</span>
+      </button>
+      <div class="brand-badge">
+        <span class="icon">🎧</span> 청각 훈련 미니 앱
+      </div>
+      <h1>Ear Training Studio</h1>
+      <p>집중해서 소리를 듣고 음높이의 차이를 맞혀보세요</p>
+    </header>
+
+    <!-- 1. 설정 화면 (Setup Screen) -->
+    <section id="screen-setup" class="screen active">
+      <!-- 난이도 선택 -->
+      <div class="option-group">
+        <div class="option-group-label">
+          <span>🎯 난이도 선택 (가장 기초부터)</span>
+          <span class="hint">동일음 지속 비율 및 감지 정밀도</span>
+        </div>
+        <div class="chip-grid">
+          <label class="chip-option">
+            <input type="radio" name="difficulty" value="basic" checked>
+            <div class="chip-box">
+              <span class="title">가장 기초 (입문)</span>
+              <span class="sub">100% 동일한 소리 지속</span>
+            </div>
+          </label>
+          <label class="chip-option">
+            <input type="radio" name="difficulty" value="medium">
+            <div class="chip-box">
+              <span class="title">보통 (집중)</span>
+              <span class="sub">80% 동일음 + 간헐적 변동</span>
+            </div>
+          </label>
+          <label class="chip-option">
+            <input type="radio" name="difficulty" value="hard">
+            <div class="chip-box">
+              <span class="title">어려움 (미세)</span>
+              <span class="sub">미세 센트 차이 식별</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 문제 수 선택 (20회 이상 기본) -->
+      <div class="option-group">
+        <div class="option-group-label">
+          <span>📝 훈련 횟수 (20회 이상 기본)</span>
+          <span class="hint">같은 소리 반복 체화 훈련</span>
+        </div>
+        <div class="chip-grid">
+          <label class="chip-option">
+            <input type="radio" name="questionCount" value="20" checked>
+            <div class="chip-box">
+              <span class="title">20회</span>
+              <span class="sub">기본 권장 훈련</span>
+            </div>
+          </label>
+          <label class="chip-option">
+            <input type="radio" name="questionCount" value="25">
+            <div class="chip-box">
+              <span class="title">25회</span>
+              <span class="sub">집중 훈련</span>
+            </div>
+          </label>
+          <label class="chip-option">
+            <input type="radio" name="questionCount" value="30">
+            <div class="chip-box">
+              <span class="title">30회</span>
+              <span class="sub">심화 훈련</span>
+            </div>
+          </label>
+          <label class="chip-option">
+            <input type="radio" name="questionCount" value="50">
+            <div class="chip-box">
+              <span class="title">50회</span>
+              <span class="sub">마스터 루틴</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 소리(음색) 선택 -->
+      <div class="option-group">
+        <div class="option-group-label">
+          <span>🎵 소리(음색) 선택</span>
+          <span class="hint">원하는 악기/파형으로 훈련</span>
+        </div>
+        <div class="chip-grid">
+          <label class="chip-option">
+            <input type="radio" name="soundType" value="piano" checked>
+            <div class="chip-box">
+              <span class="title">🎹 피아노</span>
+              <span class="sub">따뜻한 어쿠스틱 톤</span>
+            </div>
+          </label>
+          <label class="chip-option">
+            <input type="radio" name="soundType" value="sine">
+            <div class="chip-box">
+              <span class="title">〰️ 사인파</span>
+              <span class="sub">순수한 단일 주파수</span>
+            </div>
+          </label>
+          <label class="chip-option">
+            <input type="radio" name="soundType" value="synth">
+            <div class="chip-box">
+              <span class="title">👾 레트로 신스</span>
+              <span class="sub">선명한 8비트 사운드</span>
+            </div>
+          </label>
+          <label class="chip-option">
+            <input type="radio" name="soundType" value="bell">
+            <div class="chip-box">
+              <span class="title">🔔 일렉 벨</span>
+              <span class="sub">영롱한 차임 사운드</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 볼륨 및 미리듣기 -->
+      <div class="option-group">
+        <div class="volume-control">
+          <label for="volume-slider">🔊 음량</label>
+          <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.7">
+          <button type="button" id="btn-preview-sound" class="btn btn-secondary btn-sm">미리듣기</button>
+        </div>
+      </div>
+
+      <button type="button" id="btn-start-training" class="btn btn-primary">
+        🚀 훈련 시작하기
+      </button>
+    </section>
+
+    <!-- 2. 훈련 진행 화면 (Quiz Screen) -->
+    <section id="screen-quiz" class="screen">
+      <div class="quiz-top-bar">
+        <div class="quiz-progress-text" id="quiz-progress-indicator">문제 1 / 10</div>
+        <div class="quiz-badge" id="quiz-difficulty-badge">보통 · 피아노</div>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="quiz-progress-fill"></div>
+      </div>
+
+      <!-- 오디오 비주얼라이저 박스 -->
+      <div class="audio-visual-box">
+        <canvas id="waveform-canvas" class="visual-canvas" width="600" height="90"></canvas>
+
+        <div class="tone-sequence-indicator">
+          <div class="tone-badge" id="indicator-single-tone">
+            <span class="dot"></span>
+            <span id="indicator-tone-text">소리 재생 대기</span>
+          </div>
+        </div>
+
+        <button type="button" id="btn-replay-question" class="btn-play-sound">
+          <span class="icon">🔊</span> 소리 다시 듣기
+        </button>
+      </div>
+
+      <div class="target-tone-info" id="target-tone-info" style="text-align:center; font-size:0.88rem; color:var(--accent-hover); margin-bottom:10px; font-weight:700;">
+        기준음: 🎹 C4 (도 · 261Hz)
+      </div>
+
+      <div class="question-prompt" id="question-prompt-text">
+        방금 지속된 소리는 기준음과 같은 소리인가요?
+      </div>
+
+      <!-- 선택지: 같은 소리(동일음) vs 다른 소리 -->
+      <div class="choice-grid choice-grid-binary">
+        <button type="button" class="btn-choice btn-choice-match" data-choice="same">
+          <span class="icon">⭕</span>
+          <span>같은 소리 (동일음)</span>
+        </button>
+        <button type="button" class="btn-choice btn-choice-diff" data-choice="diff">
+          <span class="icon">❌</span>
+          <span>다른 소리</span>
+        </button>
+      </div>
+
+      <div class="quiz-info-note">
+        <span>🔒 20회 이상 지속 청취 훈련이 끝난 후 [정답 확인]을 클릭하면 전체 결과가 공개됩니다.</span>
+      </div>
+      <div style="text-align:center; font-size:0.75rem; color:var(--text-muted); margin-top:8px;">
+        단축키: [1 또는 O 또는 Enter] 같은 소리 ⭕ &nbsp;|&nbsp; [2 또는 X] 다른 소리 ❌ &nbsp;|&nbsp; [스페이스바] 다시 듣기
+      </div>
+    </section>
+
+    <!-- 3. 결과 및 정답 확인 화면 (Result Screen) -->
+    <section id="screen-result" class="screen">
+      <div class="result-header">
+        <div class="score-circle">
+          <span class="score-number" id="result-score-num">0</span>
+          <span class="score-total" id="result-score-total">/ 20</span>
+        </div>
+        <h2 class="result-summary-title" id="result-title">훈련 완료!</h2>
+        <p class="result-summary-desc" id="result-desc">20회 지속 청취 훈련을 완료했습니다. 아래 버튼을 눌러 정답을 확인하세요.</p>
+      </div>
+
+      <!-- 핵심 요구사항: 정답 확인 버튼 -->
+      <div class="reveal-container">
+        <button type="button" id="btn-reveal-answers" class="btn-reveal">
+          <span>🔍 전체 정답 및 채점 확인하기 (<span id="reveal-btn-count">20</span>회)</span>
+        </button>
+      </div>
+
+      <!-- 정답 클릭 시 펼쳐지는 상세 리스트 -->
+      <div class="answers-detail-panel" id="answers-detail-panel">
+        <div class="option-group-label">
+          <span>📋 문제별 정답 상세표</span>
+          <span class="hint">각 문제를 다시 들어볼 수 있습니다</span>
+        </div>
+        <div class="answers-list" id="answers-list">
+          <!-- JS로 동적 생성 -->
+        </div>
+      </div>
+
+      <div class="result-footer-buttons">
+        <button type="button" id="btn-retry-same" class="btn btn-primary">
+          🔄 동일 설정으로 다시 풀기
+        </button>
+        <button type="button" id="btn-go-setup" class="btn btn-secondary">
+          ⚙️ 설정 변경하기
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Toast Message -->
+  <div id="toast" class="toast">알림</div>
+
+  <script src="audioEngine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
